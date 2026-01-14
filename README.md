@@ -1,4 +1,4 @@
-# microbiome-edge
+# Microbiome Edge
 Version 1.0
 
 This repository contains the source code of the Microbiome EDGE web application. 

@@ -50,7 +50,7 @@ https://docs.mongodb.com/manual/installation/#mongodb-community-edition-installa
 
 ### Procedure
 
-1. Start the MongoDB server.
+1. Start the MongoDB if it's not started yet
 2. Start the web app server via PM2:
    ```shell
    pm2 start pm2.config.js

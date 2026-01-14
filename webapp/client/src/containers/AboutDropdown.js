@@ -1,0 +1,36 @@
+import React from 'react';
+
+const AboutDropdown = (props) => {
+  return (
+    <>
+      <div className="nmdc-header-nav-link" >
+        <a title="About Us" href="https://microbiomedata.org/about/">
+          About Us
+        </a>
+        <button className="nmdc-header-chevron"> </button>
+        <div className="nmdc-header-dropdown-menu" >
+          <a title="Our Story" href="https://microbiomedata.org/about/">
+            Our Story
+          </a>
+          <a title="Team" href="https://microbiomedata.org/team/">
+            Team
+          </a>
+          <a title="Advisory" href="https://microbiomedata.org/advisory/">
+            Advisory
+          </a>
+          <a title="FAQs" href="https://microbiomedata.org/faqs/">
+            FAQs
+          </a>
+          <a title="Data Use Policy" href="https://microbiomedata.org/nmdc-data-use-policy/">
+            Data Use Policy
+          </a>
+          <a title="Contact Us" href="https://microbiomedata.org/contact/">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default AboutDropdown

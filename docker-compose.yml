@@ -1,0 +1,89 @@
+version: "3"
+
+# These are the services that constitute this Docker Compose "stack".
+services:
+
+  # The NMDC EDGE web app (both client and server).
+  webapp:
+    build: { context: ".", dockerfile: "Dockerfile" }
+    # Override the container image's default command (i.e. the `CMD` defined in the Dockerfile), so that
+    # PM2 runs in "watch" mode (i.e. so that PM2 restarts the application whenever a file changes).
+    # Reference: https://pm2.keymetrics.io/docs/usage/restart-strategies/
+    command: ["pm2-runtime", "start", "pm2.config.js", "--watch"]
+    volumes:
+      # Mount the host's "webapp" directory within the container, so that the container can "see" changes that
+      # are made on the host, and vice versa.
+      #
+      - "./webapp:/app/webapp"
+      #
+      # Mount the host's "io" directory within the container, so that the host can "see" files uploaded via the web UI.
+      # The host path is set to `./io` by default, in an attempt to create a configuration familiar to people used to
+      # using the `installation/install.sh` script.
+      #
+      - ${IO_BASE_DIR_ON_HOST:-./io}:/app/io
+      #
+      # ...but, don't mount the following subdirectories. For these subdirectories, we want the container to be
+      # initialized with the subdirectories as they exist in the container image, instead of as they exist on the host.
+      # That way (a) the installed npm packages are consistent with the container's architecture (i.e. amd64 vs. arm64);
+      # and (b) the built client already exists and is ready to be served. See https://stackoverflow.com/a/62799209
+      # for an explanation of this "anonymous volume" technique.
+      #
+      - "/app/webapp/client/build"
+      - "/app/webapp/client/node_modules"
+      - "/app/webapp/server/node_modules"
+    environment:
+      DATABASE_HOST: mongo
+      DATABASE_PORT: 27017
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: password
+      APP_EXTERNAL_BASE_URL: http://localhost:8000
+      CROMWELL_API_BASE_URL: http://cromwell:8000
+      JWT_SECRET: "jwt-secret"
+      OAUTH_SECRET: "oauth-secret"
+      EMAIL_SHARED_SECRET: "email-shared-secret"
+      NMDC_EDGE_WEB_APP_VERSION: v0.0.0-local
+    # Map localhost port 8000 to container port 5000 (the latter can
+    # be overridden via the `APP_SERVER_PORT` environment variable).
+    ports:
+      - "8000:${APP_SERVER_PORT:-5000}"
+    depends_on:
+      - mongo
+      - cromwell
+
+  # A MongoDB server (see: https://hub.docker.com/_/mongo).
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      # Note: By default, the MongoDB server will store its data in `/data/db`.
+      - mongo-data:/data/db
+    # Map localhost port 27017 to container port 27017 (MongoDB server listens on port 27017 by default).
+    ports:
+      - "27017:27017"
+
+  # A Cromwell server (see: https://hub.docker.com/r/broadinstitute/cromwell).
+  cromwell:
+    image: broadinstitute/cromwell:87-b6d1f50
+    restart: unless-stopped
+    volumes:
+      # TODO: Configure Cromwell to copy execution data into the projects data folder at `/projects-data`.
+      - ${PROJECTS_BASE_DIR_ON_HOST:-./io/projects}:/projects-data
+      # TODO: Configure Cromwell to write execution data to `/execution-data`.
+      - cromwell-execution-data:/execution-data
+      # TODO: Configure Cromwell to read reference data from `/reference-data`.
+      - cromwell-reference-data:/reference-data
+    environment:
+      CROMWELL_ARGS: "server"
+    # Map localhost port 8001 to container port 8000 (Cromwell listens on port 8000 by default).
+    ports:
+      - "8001:8000"
+
+# Configure named volumes.
+# Reference: https://docs.docker.com/compose/compose-file/07-volumes/
+volumes:
+  mongo-data: {}
+  cromwell-execution-data: {}
+  cromwell-reference-data: {}

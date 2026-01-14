@@ -1,0 +1,21 @@
+version <VERSION>
+import "<WDL_IMPORT>" as <WORKFLOW>
+
+workflow main_workflow {
+    input {
+        String <WORKFLOW>_project_id
+        File? <WORKFLOW>_input_file
+        File? <WORKFLOW>_input_fq1
+        File? <WORKFLOW>_input_fq2
+        Boolean <WORKFLOW>_input_interleaved
+    }
+
+    call <WORKFLOW>.nmdc_metat as <ALIAS> {
+        input: 
+        project_id=<WORKFLOW>_project_id,
+        input_file=<WORKFLOW>_input_file,
+        input_interleaved=<WORKFLOW>_input_interleaved, 
+        input_fq1=<WORKFLOW>_input_fq1, 
+        input_fq2=<WORKFLOW>_input_fq2
+    }
+}

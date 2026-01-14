@@ -1,0 +1,15 @@
+.DS_Store
+.env
+log
+projects
+upload
+installation/server_pm2.json
+host.env
+io
+test
+testing_docs
+imports.zip
+cromwell_mysql_backup.sql
+
+# JetBrains IDE files.
+/.idea

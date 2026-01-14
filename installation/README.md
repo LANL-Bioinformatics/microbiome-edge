@@ -1,7 +1,7 @@
 ## INSTALLATION PREREQUISITES
 
-### Install Node v20
-https://nodejs.org/en/download/prebuilt-installer
+### Install Node
+https://nodejs.org
 
 ### Install pm2
 `npm install pm2@latest -g`
@@ -32,18 +32,42 @@ Here's how you can define them in `.env` files:
     ```
     > Those environment variables are used within `webapp/server/config.js`.
 
-> If the same environment variable is defined in both your system environment and in an `.env` file, 
-> the definition in your system environment will be used and the one in the `.env` file will be 
-> [ignored](https://github.com/motdotla/dotenv/blob/master/README.md#what-happens-to-environment-variables-that-were-already-set).
 
 
 ## INSTALLING webapp
 
 ### Procedure
 
-1. Move/copy nmdc-edge folder to the installation directory
+1. Create a local copy of the microbiome-edge web app in your installation directory
+   
+   `git clone https://github.com/LANL-Bioinformatics/microbiome-edge.git`
+   
+2. Create environment variables
 
-2. Inside nmdc-edge/installation folder, run the installation script 
+    The web client and web server each rely on environment variables for their configuration.
+    You can define those environment variables in `.env` files.
+
+    Here's how you can define them in `.env` files:
+
+    - Populate the "client build" environment configuration file (i.e. `webapp/client/.env`). 
+
+        You can initialize it based upon the corresponding example file:
+        ```shell
+        cp webapp/client/.env.example \
+        webapp/client/.env
+        ```
+        > Those environment variables are used within `webapp/client/src/config.js`.
+
+    - Populate the server environment configuration file (i.e. `webapp/server/.env`). 
+    
+        You can initialize it based upon the corresponding example file:
+        ```shell
+        cp webapp/server/.env.example \
+        webapp/server/.env
+        ```
+        > Those environment variables are used within `webapp/server/config.js`.
+
+3. Inside microbiome-edge/installation folder, run the installation script 
 
     `./install.sh`
 

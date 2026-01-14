@@ -1,16 +1,8 @@
 #!/bin/bash
-echo "Install NMDC EDGE webapp..."
+echo "Install Microbiome EDGE webapp..."
 
 pwd=$PWD
 app_home="$(dirname "$pwd")"
-
-read -p 'Web server domain name (default localhost)? ' web_server_domain
-[[ ! $web_server_domain ]] && web_server_domain=localhost
-read -p 'Webapp port (default 5000)? ' web_server_port
-[[ ! $web_server_port ]] && web_server_port=5000
-
-read -p 'Continue to install NMDC EDGE webapp? [y/n]'
-[[ ! $REPLY =~ ^[Yy]$ ]] && exit 1
 
 #create upload/log/projects/public directories, skip this step for reinstallation
 io_home=$app_home/io
@@ -64,7 +56,7 @@ do
   fi
 done
 
-echo "setup NMDC EDGE webapp ..."
+echo "setup Microbiome EDGE webapp ..."
 #build client
 echo "build client..."
 cd $app_home/webapp/client
@@ -75,6 +67,6 @@ echo "build server..."
 cd $app_home/webapp/server
 npm install
 
-echo "NMDC EDGE webapp successfully installed!"
+echo "Microbiome EDGE webapp successfully installed!"
 echo "To start the webapp:"
 echo "pm2 start pm2.config.js"

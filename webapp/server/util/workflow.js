@@ -14,6 +14,7 @@ const config = require("../config");
 //submit workflow to cromwell through api
 function submitWorkflow(proj, workflow, inputsize) {
     const proj_home = path.join(config.PROJECTS.BASE_DIR, proj.code);
+    const proj_home_in_cromwell = proj_home.replace(/\/mnt_home/g, '');
     let formData = new FormData();
     formData.append("workflowSource", fs.createReadStream(proj_home + '/pipeline.wdl'));
     logger.debug("workflowSource: " + proj_home + '/pipeline.wdl');

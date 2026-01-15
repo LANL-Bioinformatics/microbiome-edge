@@ -124,7 +124,7 @@ function generateOptions(proj_home, pipeline) {
     const pipelineSettings = pipelinelist[pipeline];
     const tmpl = path.join(config.WORKFLOWS.TEMPLATE_DIR, pipelineSettings['options_json']);
     let templInputs = String(fs.readFileSync(tmpl));
-    fs.writeFileSync(proj_home + '/options.json', templInputs.replace(/\/mnt_home/g, ''));
+    fs.writeFileSync(proj_home + '/options.json', templInputs.replace(/mnt_home/g, 'home'));
     return true;
 
 }
@@ -140,7 +140,7 @@ function generateWDL(proj_home, pipeline) {
     templWDL = templWDL.replace(/<MAGS_WDL>/g, workflowlist['MetaMAGs']['wdl']);
     templWDL = templWDL.replace(/<ASSEMBLY_WDL>/g, workflowlist['MetaAssembly']['wdl']);
     //write to pipeline.wdl
-    fs.writeFileSync(proj_home + '/pipeline.wdl', templWDL.replace(/\/mnt_home/g, ''));
+    fs.writeFileSync(proj_home + '/pipeline.wdl', templWDL.replace(/mnt_home/g, 'home'));
     return true;
 }
 
@@ -269,6 +269,6 @@ async function generateInputs(proj_home, conf, proj) {
     pipelineInputs += templInputs + "\n";
     pipelineInputs += "}\n";
     //write to pipeline_inputs.json
-    fs.writeFileSync(proj_home + '/pipeline_inputs.json', pipelineInputs.replace(/\/mnt_home/g, ''));
+    fs.writeFileSync(proj_home + '/pipeline_inputs.json', pipelineInputs.replace(/mnt_home/g, 'home'));
     return true;
 }

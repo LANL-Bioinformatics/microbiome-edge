@@ -147,7 +147,7 @@ function generateWDL(proj_home, workflow) {
     wdl += templWDL;
 
     //write to pipeline.wdl
-    fs.writeFileSync(proj_home + '/pipeline.wdl', wdl);
+    fs.writeFileSync(proj_home + '/pipeline.wdl', wdl.replace(/\/mnt_home/g, ''));
     return true;
 }
 async function generateOptions(proj_home, workflow) {
@@ -166,7 +166,7 @@ async function generateOptions(proj_home, workflow) {
     else {
         templInputs = templInputs.replace(/<OUTDIR>/, '"' + proj_home + "/" + workflowSettings['outdir'] + '"');
     }
-    fs.writeFileSync(proj_home + '/options.json', templInputs);
+    fs.writeFileSync(proj_home + '/options.json', templInputs.replace(/\/mnt_home/g, ''));
     return true;
 
 }
@@ -436,6 +436,6 @@ async function generateInputs(proj_home, workflow, proj) {
     inputs += templInputs + "\n";
     inputs += "}\n";
     //write to pipeline_inputs.json
-    fs.writeFileSync(proj_home + '/pipeline_inputs.json', inputs);
+    fs.writeFileSync(proj_home + '/pipeline_inputs.json', inputs.replace(/\/mnt_home/g, ''));
     return true;
 }

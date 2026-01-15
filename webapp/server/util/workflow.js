@@ -14,13 +14,12 @@ const config = require("../config");
 //submit workflow to cromwell through api
 function submitWorkflow(proj, workflow, inputsize) {
     const proj_home = path.join(config.PROJECTS.BASE_DIR, proj.code);
-    const proj_home_in_cromwell = proj_home.replace(/\/mnt_home/g, '');
     let formData = new FormData();
-    formData.append("workflowSource", fs.createReadStream(proj_home_in_cromwell + '/pipeline.wdl'));
-    logger.debug("workflowSource: " + proj_home_in_cromwell + '/pipeline.wdl');
-    formData.append("workflowInputs", fs.createReadStream(proj_home_in_cromwell + '/pipeline_inputs.json'));
-    logger.debug("workflowInputs" + proj_home_in_cromwell + '/pipeline_inputs.json');
-    const options_json = proj_home_in_cromwell + '/options.json';
+    formData.append("workflowSource", fs.createReadStream(proj_home + '/pipeline.wdl'));
+    logger.debug("workflowSource: " + proj_home + '/pipeline.wdl');
+    formData.append("workflowInputs", fs.createReadStream(proj_home + '/pipeline_inputs.json'));
+    logger.debug("workflowInputs" + proj_home + '/pipeline_inputs.json');
+    const options_json = proj_home + '/options.json';
     if (fs.existsSync(options_json)) {
         formData.append("workflowOptions", fs.createReadStream(options_json));
         logger.debug("workflowOptions:" + options_json);

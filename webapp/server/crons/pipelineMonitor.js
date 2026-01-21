@@ -173,7 +173,7 @@ async function generateInputs(proj_home, conf, proj) {
                 let name = await common.getRealName(fileCode);
                 const inputFq = inputDir + "/" + name;
                 if (!common.fileExistsSync(inputFq)) {
-                    fs.symlinkSync(fq, inputFq, 'file');
+                    fs.copyFileSync(fq, inputFq);
                 }
                 inputs.push(inputFq);
             } else {
@@ -201,7 +201,7 @@ async function generateInputs(proj_home, conf, proj) {
                 let name = await common.getRealName(fileCode);
                 const inputFq = inputDir + "/" + name;
                 if (!common.fileExistsSync(inputFq)) {
-                    fs.symlinkSync(fq1, inputFq, 'file');
+                    fs.copyFileSync(fq1, inputFq);
                 }
                 inputs_fq1.push(inputFq);
             } else {
@@ -218,7 +218,7 @@ async function generateInputs(proj_home, conf, proj) {
                 let name = await common.getRealName(fileCode);
                 const inputFq = inputDir + "/" + name;
                 if (!common.fileExistsSync(inputFq)) {
-                    fs.symlinkSync(fq2, inputFq, 'file');
+                    fs.copyFileSync(fq2, inputFq);
                 }
                 inputs_fq2.push(inputFq);
             } else {

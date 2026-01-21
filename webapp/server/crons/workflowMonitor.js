@@ -132,7 +132,7 @@ function generateWDL(proj_home, workflow) {
     const tmpl_pipeline = path.join(config.WORKFLOWS.WDL_DIR, workflowSettings['wdl_pipeline'] ? workflowSettings['wdl_pipeline'] : "notfound");
     if (fs.existsSync(tmpl_pipeline)) {
         //add pipeline.wdl link
-        fs.symlinkSync(tmpl_pipeline, proj_home + '/pipeline.wdl', 'file');
+        fs.copyFileSync(tmpl_pipeline, proj_home + '/pipeline.wdl');
         return true;
     }
 
@@ -224,7 +224,7 @@ async function generateInputs(proj_home, workflow, proj) {
                             linkFq = inputDir + "/" + name + i;
                         }
                     }
-                    fs.symlinkSync(fq, linkFq, 'file');
+                    fs.copyFileSync(fq, linkFq);
                     inputs_fq.push(linkFq);
                 } else {
                     inputs_fq.push(fq);
@@ -267,7 +267,7 @@ async function generateInputs(proj_home, workflow, proj) {
                             linkFq = inputDir + "/" + name + i;
                         }
                     }
-                    fs.symlinkSync(fq1, linkFq, 'file');
+                    fs.copyFileSync(fq1, linkFq);
                     inputs_fq1.push(linkFq);
                 } else {
                     inputs_fq1.push(fq1);
@@ -292,7 +292,7 @@ async function generateInputs(proj_home, workflow, proj) {
                             linkFq = inputDir + "/" + name + i;
                         }
                     }
-                    fs.symlinkSync(fq2, linkFq, 'file');
+                    fs.copyFileSync(fq2, linkFq);
                     inputs_fq2.push(linkFq);
                 } else {
                     inputs_fq2.push(fq2);

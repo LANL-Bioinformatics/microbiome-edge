@@ -76,6 +76,11 @@ function updateJobStatus(job, proj) {
             } else if (response.status === 'Aborted') {
                 status = 'in queue';
             }
+
+            //clean up input files for this project
+            if (status === 'complete' || status === 'failed') {
+                fs.rmSync(path.join(config.PROJECTS.BASE_DIR, job.project, "input"), { recursive: true, force: true });
+            }
             proj.status = status;
             proj.updated = Date.now();
             proj.save();

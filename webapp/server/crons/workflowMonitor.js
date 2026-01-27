@@ -132,7 +132,7 @@ function generateWDL(proj_home, workflow) {
     const tmpl_pipeline = path.join(config.WORKFLOWS.WDL_DIR, workflowSettings['wdl_pipeline'] ? workflowSettings['wdl_pipeline'] : "notfound");
     if (fs.existsSync(tmpl_pipeline)) {
         //add pipeline.wdl link
-        fs.copyFileSync(tmpl_pipeline, proj_home + '/pipeline.wdl');
+        fs.symlinkSync(tmpl_pipeline, proj_home + '/pipeline.wdl', 'file');
         return true;
     }
 
@@ -147,7 +147,7 @@ function generateWDL(proj_home, workflow) {
     wdl += templWDL;
 
     //write to pipeline.wdl
-    fs.writeFileSync(proj_home + '/pipeline.wdl', wdl.replace(/mnt_home/g, 'home'));
+    fs.writeFileSync(proj_home + '/pipeline.wdl', wdl);
     return true;
 }
 async function generateOptions(proj_home, workflow) {
@@ -166,7 +166,7 @@ async function generateOptions(proj_home, workflow) {
     else {
         templInputs = templInputs.replace(/<OUTDIR>/, '"' + proj_home + "/" + workflowSettings['outdir'] + '"');
     }
-    fs.writeFileSync(proj_home + '/options.json', templInputs.replace(/mnt_home/g, 'home'));
+    fs.writeFileSync(proj_home + '/options.json', templInputs);
     return true;
 
 }
@@ -224,7 +224,7 @@ async function generateInputs(proj_home, workflow, proj) {
                             linkFq = inputDir + "/" + name + i;
                         }
                     }
-                    fs.copyFileSync(fq, linkFq);
+                    fs.symlinkSync(fq, linkFq, 'file');
                     inputs_fq.push(linkFq);
                 } else {
                     inputs_fq.push(fq);
@@ -267,7 +267,7 @@ async function generateInputs(proj_home, workflow, proj) {
                             linkFq = inputDir + "/" + name + i;
                         }
                     }
-                    fs.copyFileSync(fq1, linkFq);
+                    fs.symlinkSync(fq1, linkFq, 'file');
                     inputs_fq1.push(linkFq);
                 } else {
                     inputs_fq1.push(fq1);
@@ -292,7 +292,7 @@ async function generateInputs(proj_home, workflow, proj) {
                             linkFq = inputDir + "/" + name + i;
                         }
                     }
-                    fs.copyFileSync(fq2, linkFq);
+                    fs.symlinkSync(fq2, linkFq, 'file');
                     inputs_fq2.push(linkFq);
                 } else {
                     inputs_fq2.push(fq2);
@@ -436,6 +436,6 @@ async function generateInputs(proj_home, workflow, proj) {
     inputs += templInputs + "\n";
     inputs += "}\n";
     //write to pipeline_inputs.json
-    fs.writeFileSync(proj_home + '/pipeline_inputs.json', inputs.replace(/mnt_home/g, 'home'));
+    fs.writeFileSync(proj_home + '/pipeline_inputs.json', inputs);
     return true;
 }

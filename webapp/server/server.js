@@ -123,17 +123,8 @@ app.use(bodyParser.json());
 // DB Config
 const db = `mongodb://${config.DATABASE.SERVER_HOST}:${config.DATABASE.SERVER_PORT}/${config.DATABASE.NAME}`;
 // Connect to MongoDB 
-mongoose
-  .connect(
-    db,
-    {
-      authSource: "admin",
-      user: config.DATABASE.USERNAME,
-      pass: config.DATABASE.PASSWORD,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+mongoose.set('strictQuery', false);
+mongoose.connect(db)
   .then(() => logger.info("MongoDB successfully connected"))
   .catch(err => logger.error("Failed to connect to MongoDB server:", err));
 

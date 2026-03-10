@@ -6,7 +6,7 @@ workflow viral {
     input {
         String database
         String genomad_db = database + '/genomad_db-v1.6'
-        String checkv_db = database + '/checkv-db-v1.4'
+        String checkv_db = database + '/checkv-db-v1.5'
         File fasta
         String proj_name
         Map[String, Boolean] option

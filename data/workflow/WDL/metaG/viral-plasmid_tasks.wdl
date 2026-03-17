@@ -20,7 +20,7 @@ task geNomad_full {
         Int? CPU = 4
         Boolean? calibration = false
         Float? fdr = 0.1
-        String prefix=sub(proj_name, ".", "_")
+        String prefix=sub(proj_name, "\\.", "_")
     }
 
     command <<<
